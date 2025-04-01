@@ -1,6 +1,7 @@
 package com.dms.eo.yamlloader;
 
 import com.dms.eo.yamlloader.component.*;
+import com.dms.eo.yamlloader.iterator.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -26,6 +27,9 @@ class AppStartupRunner implements ApplicationRunner {
 	@Autowired
 	private YamlFileLoader yamlFileLoader;
 
+	@Autowired
+	private MapIterator mapIterator;
+
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		processYaml();
@@ -34,6 +38,7 @@ class AppStartupRunner implements ApplicationRunner {
 	public void processYaml() {
 		try {
 			Map<String, Object> data = yamlFileLoader.loadConfig();
+			mapIterator.printMapWithIndex(data);
 
 			// Extract the 'name' field
 			String name = (String) data.get("name");

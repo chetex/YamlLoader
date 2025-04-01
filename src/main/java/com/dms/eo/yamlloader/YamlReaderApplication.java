@@ -1,5 +1,6 @@
 package com.dms.eo.yamlloader;
 
+import com.dms.eo.yamlloader.component.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,8 +13,6 @@ import java.io.*;
 import java.util.*;
 
 @SpringBootApplication
-@ComponentScan({"com.dms.eo.service.client.oauth", "com.dms.eo.flow.base.component", "com.dms.eo.fmpf",
-		"com.dms.eo.flow.admin", "com.dms.eo.flow.job", "com.dms.eo.fmpf.startup", "com.dms.eo.fmpf.utils"})
 public class YamlReaderApplication {
 
 	public static void main(String[] args) {
@@ -24,8 +23,8 @@ public class YamlReaderApplication {
 @Component
 class AppStartupRunner implements ApplicationRunner {
 
-	@Value("classpath:data.yaml")
-	private Resource yamlResource;
+	@Autowired
+	private YamlFileLoader yamlFileLoader;
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
@@ -34,7 +33,7 @@ class AppStartupRunner implements ApplicationRunner {
 
 	public void processYaml() {
 		try {
-			Map<String, Object> data = loadConfig("data.yml");
+			Map<String, Object> data = yamlFileLoader.loadConfig();
 
 			// Extract the 'name' field
 			String name = (String) data.get("name");
@@ -110,19 +109,6 @@ class AppStartupRunner implements ApplicationRunner {
 
 		} catch (Exception error) {
 			error.printStackTrace();
-		}
-	}
-
-	/**
-	 * Load the YAML file
-	 * @param fileName File name
-	 * @return Map with the data from the YAML file string object
-	 * @throws IOException
-	 */
-	public Map<String, Object> loadConfig(String fileName) throws IOException {
-		Yaml yaml = new Yaml();
-		try (InputStream inputStream = yamlResource.getInputStream()) {
-			return yaml.load(inputStream);
 		}
 	}
 }

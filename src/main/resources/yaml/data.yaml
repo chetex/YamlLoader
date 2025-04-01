@@ -1,0 +1,22 @@
+name: By default
+orbitsItems: []
+planningRules:
+  planningRuleItems:
+    - rule1: value1
+      rule2: value2
+    - rule3: value3
+sequencesItems: []
+instrumentOperations:
+  instrumentOperationItems:
+    - operation1: value1
+    - operation2: value2
+ppfEvents:
+  ppfEventItems:
+    - event1: value1
+    - event2: value2
+visibilities:
+  visibilityItems:
+    - visibility1: value1
+    - visibility2: value2
+downlinksItems: []
+unavailabilitiesItems: []
